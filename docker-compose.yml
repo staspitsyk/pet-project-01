@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  nest-service:
+    container_name: nest-app-container
+    image: nest-api-image
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 3000:3000
+    networks:
+      - backend_network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  backend_network:
+    driver: bridge
