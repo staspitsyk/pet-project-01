@@ -1,12 +1,14 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 
+import { config } from '../config/configuration';
+
 export const dataSourceOptions: DataSourceOptions = {
-  type: 'postgres',
-  host: process.env.PG_HOST,
-  port: parseInt(process.env.PG_PORT),
-  username: process.env.PG_USER,
-  password: process.env.PG_PASSWORD,
-  database: process.env.PG_DB,
+  type: config.database.postgres.type,
+  host: config.database.postgres.host,
+  port: config.database.postgres.port,
+  username: config.database.postgres.username,
+  password: config.database.postgres.password,
+  database: config.database.postgres.database,
   logging: true,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/src/db/migrations/*.js'],
