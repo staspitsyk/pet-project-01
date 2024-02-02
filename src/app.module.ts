@@ -6,6 +6,7 @@ import { dataSourceOptions } from 'src/db/data_source';
 import { ConfigModule } from '@nestjs/config';
 
 import configuration from './config/configuration';
+import { LevelConfigsModule } from './modules/level-configs/level-configs.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import configuration from './config/configuration';
       isGlobal: true,
       load: [configuration],
     }),
+    LevelConfigsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
