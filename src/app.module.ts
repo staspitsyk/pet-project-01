@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import configuration from './config/configuration';
 import { LevelConfigsModule } from './modules/level-configs/level-configs.module';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { LevelConfigsModule } from './modules/level-configs/level-configs.module
       load: [configuration],
     }),
     LevelConfigsModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
