@@ -10,10 +10,10 @@ export class LevelConfig {
   level: number;
 
   @Column({ type: 'bigint', nullable: false })
-  startXp: number;
+  startXp: string;
 
   @Column({ type: 'bigint', nullable: false })
-  endXp: number;
+  endXp: string;
 
   @CreateDateColumn()
   createdDate: Date;

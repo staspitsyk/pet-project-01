@@ -9,6 +9,8 @@ export const validationSchema = Joi.object({
       username: Joi.string().required(),
       password: Joi.string().required(),
       database: Joi.string().required(),
+      synchronize: Joi.boolean().required(),
+      entities: Joi.array().items(Joi.string()),
     }).required(),
   }).required(),
   app: Joi.object({

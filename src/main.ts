@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 import { ErrorsInterceptor } from './interceptors/errors.interceptor';
@@ -10,6 +11,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('app.port');
 
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
   const config = new DocumentBuilder()

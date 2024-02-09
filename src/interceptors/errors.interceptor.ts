@@ -5,6 +5,7 @@ import {
   CallHandler,
   NotFoundException,
   InternalServerErrorException,
+  BadRequestException,
 } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -21,6 +22,12 @@ export class ErrorsInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       catchError((error) => {
+        if (error instanceof BadRequestException) {
+          logger.error(error.message, { stack: error.stack, error });
+
+          return throwError(() => error);
+        }
+
         const HttpError = originalErrorToHttpErrorMap[error.type];
 
         if (!HttpError) {

@@ -1,0 +1,15 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "globalSetup": "./test/globalSetup.ts",
+  "globalTeardown": "./test/globalTeardown.ts",
+  "moduleNameMapper": {
+    "src/(.*)": "<rootDir>/src/$1"
+  },
+  "testPathIgnorePatterns": ["test/functional", "test/unit"],
+  "testMatch": ["**/test/integration/**/*.test.ts"]
+}

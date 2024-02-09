@@ -8,11 +8,11 @@ export class GetLevelConfigResponse {
   @ApiProperty({ description: 'level of level config', example: 1, type: Number })
   readonly level: number;
 
-  @ApiProperty({ description: 'startXp of level config', example: 1000, type: Number })
-  readonly startXp: number;
+  @ApiProperty({ description: 'startXp of level config', example: '1000', type: String })
+  readonly startXp: string;
 
-  @ApiProperty({ description: 'endXp of level config', example: 2000, type: Number })
-  readonly endXp: number;
+  @ApiProperty({ description: 'endXp of level config', example: '2000', type: String })
+  readonly endXp: string;
 
   @ApiProperty({ description: 'createdDate of level config', example: '2024-02-02T15:06:25.887Z', type: Date })
   readonly createdDate: Date;

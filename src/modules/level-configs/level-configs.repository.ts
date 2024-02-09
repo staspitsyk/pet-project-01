@@ -31,4 +31,10 @@ export class LevelConfigsRepository {
 
     return levelConfig;
   }
+
+  async getLevelConfigById(id: number): Promise<LevelConfig | null> {
+    const levelConfig = await this.levelConfigsRepo.findOneBy({ id });
+
+    return levelConfig;
+  }
 }

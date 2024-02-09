@@ -3,12 +3,12 @@ import { ApiResponse, ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
 
 import { LevelConfigsService } from './level-configs.service';
 import { CreateLevelConfigDto } from './dto/create-level-config.dto';
-import { ADMIN_PREFIX } from 'src/constants/routes';
 import { CreateLevelConfigResponse } from './responses/create-level-config.response';
 import { GetLevelConfigResponse, GetLevelConfigsResponse } from './responses/get-level-config.response';
+import { LEVEL_CONFIGS_ROUTE } from './routes';
 
 @ApiTags('level-configs')
-@Controller(`${ADMIN_PREFIX}/level-configs`)
+@Controller(LEVEL_CONFIGS_ROUTE)
 export class LevelConfigsAdminController {
   constructor(private readonly levelConfigsService: LevelConfigsService) {}
 

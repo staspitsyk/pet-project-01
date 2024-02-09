@@ -10,8 +10,9 @@ export const dataSourceOptions: DataSourceOptions = {
   password: config.database.postgres.password,
   database: config.database.postgres.database,
   logging: true,
-  entities: ['dist/**/*.entity.js'],
+  entities: config.database.postgres.entities,
   migrations: ['dist/db/migrations/*.js'],
+  synchronize: config.database.postgres.synchronize,
 };
 
 const dataSource = new DataSource(dataSourceOptions);
