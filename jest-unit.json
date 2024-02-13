@@ -5,9 +5,8 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "moduleNameMapper": {
-    "src/(.*)": "<rootDir>/src/$1"
-  },
+  "modulePaths": ["<rootDir>"],
+  "moduleDirectories": ["node_modules", "src"],
   "testPathIgnorePatterns": ["test/integration", "test/functional"],
   "testMatch": ["**/test/unit/**/*.test.ts"]
 }

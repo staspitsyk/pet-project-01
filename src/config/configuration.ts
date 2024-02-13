@@ -10,7 +10,7 @@ type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-type Config = {
+export type Config = {
   database: {
     postgres: {
       type: 'postgres';
@@ -23,8 +23,18 @@ type Config = {
       entities: string[];
     };
   };
+  kafka: {
+    broker: string;
+  };
   app: {
     port: number;
+  };
+  features: {
+    levelConfig: {
+      topics: {
+        levelConfigHistoryTopic: string;
+      };
+    };
   };
 };
 
@@ -37,6 +47,16 @@ const baseConfig: RecursivePartial<Config> = {
       username: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB,
+    },
+  },
+  kafka: {
+    broker: process.env.KAFKA_BROKER,
+  },
+  features: {
+    levelConfig: {
+      topics: {
+        levelConfigHistoryTopic: 'level-config-history',
+      },
     },
   },
   app: {

@@ -7,9 +7,8 @@
   },
   "globalSetup": "./test/globalSetup.ts",
   "globalTeardown": "./test/globalTeardown.ts",
-  "moduleNameMapper": {
-    "src/(.*)": "<rootDir>/src/$1"
-  },
+  "modulePaths": ["<rootDir>"],
+  "moduleDirectories": ["node_modules", "src"],
   "testMatch": [
     "**/test/functional/**/*.test.ts",
     "**/test/integration/**/*.test.ts",

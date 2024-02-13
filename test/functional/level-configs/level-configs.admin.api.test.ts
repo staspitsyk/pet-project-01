@@ -2,6 +2,9 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
+import { Consumer } from 'kafkajs';
+import { ConfigService } from '@nestjs/config';
+import waitForExpect from 'wait-for-expect';
 
 import { LevelConfig } from 'src/modules/level-configs/entities/level-config.entity';
 import { getTestApplication } from '../test-application';
@@ -9,12 +12,17 @@ import { levelConfigCandidateTemplate } from './data/level-configs.data';
 import { LevelConfigsRepository } from 'src/modules/level-configs/level-configs.repository';
 import { createdDateUpdatedDateExpect, createdDateUpdatedDateResponseExpect } from '../../data/date-template.data';
 import { LEVEL_CONFIGS_ROUTE } from 'src/modules/level-configs/routes';
+import { TopicToMessagesMap, consumeMessages, getTestKafkaConsumer } from '../../utils/kafka/test-kafka';
+import { LEVEL_CONFIG_HISTORY_OPERATIONS } from 'src/modules/level-configs/types';
 
 describe('Level Configs REST Admin API', () => {
   let levelConfigRepo: Repository<LevelConfig>;
   let levelConfigsRepository: LevelConfigsRepository;
   let app: INestApplication;
   let httpServer: any;
+  let kafkaConsumer: Consumer;
+  let topicToMessagesMap: TopicToMessagesMap;
+  let levelConfigHistoryTopic: string;
 
   beforeAll(async () => {
     app = await getTestApplication();
@@ -22,6 +30,14 @@ describe('Level Configs REST Admin API', () => {
     levelConfigRepo = app.get(getRepositoryToken(LevelConfig));
     levelConfigsRepository = app.get(LevelConfigsRepository);
     httpServer = app.getHttpServer();
+
+    const configService = app.get(ConfigService);
+
+    levelConfigHistoryTopic = configService.getOrThrow('features.levelConfig.topics.levelConfigHistoryTopic');
+
+    kafkaConsumer = await getTestKafkaConsumer();
+
+    topicToMessagesMap = await consumeMessages(kafkaConsumer, [levelConfigHistoryTopic]);
   });
 
   beforeEach(async () => {
@@ -30,6 +46,7 @@ describe('Level Configs REST Admin API', () => {
 
   afterAll(async () => {
     await app.close();
+    await kafkaConsumer.disconnect();
   });
 
   describe('POST (/admin/level-configs)', () => {
@@ -83,6 +100,25 @@ describe('Level Configs REST Admin API', () => {
       expect(res.status).toEqual(500);
       expect(res.body.message).toEqual('Oops, something went wrong');
       expect(levelConfigs).toHaveLength(1);
+    });
+
+    it('Should send history message to kafka', async () => {
+      const {
+        body: { id },
+      } = await request(httpServer).post(LEVEL_CONFIGS_ROUTE).send(levelConfigCandidateTemplate);
+
+      await waitForExpect(() => {
+        const levelConfigHistoryMessages = topicToMessagesMap[levelConfigHistoryTopic];
+        const message = levelConfigHistoryMessages.find((message) => message.id === id);
+
+        expect(message).toBeDefined();
+        expect(message).toEqual({
+          ...levelConfigCandidateTemplate,
+          id,
+          timeStamp: expect.any(Number),
+          operation: LEVEL_CONFIG_HISTORY_OPERATIONS.CREATED,
+        });
+      });
     });
   });
 

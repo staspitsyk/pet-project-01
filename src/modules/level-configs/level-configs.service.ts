@@ -5,17 +5,27 @@ import { LevelConfigsRepository } from './level-configs.repository';
 import { LevelConfigNotFoundError } from './level-configs.errors';
 import { LevelConfig } from './entities/level-config.entity';
 import { LoggerService } from '../logger/logger.service';
+import { LevelConfigsHistoryService } from './level.configs-history.service';
 
 @Injectable()
 export class LevelConfigsService {
   private readonly logger: Logger;
 
-  constructor(private readonly levelConfigRepository: LevelConfigsRepository, readonly loggerService: LoggerService) {
+  constructor(
+    private readonly levelConfigRepository: LevelConfigsRepository,
+    readonly loggerService: LoggerService,
+    private readonly levelConfigsHistoryService: LevelConfigsHistoryService,
+  ) {
     this.logger = loggerService.getLogger('LevelConfigsService');
   }
 
   async createLevelConfig(levelConfigCandidate: CreateLevelConfigDto): Promise<number> {
     const id = await this.levelConfigRepository.createLevelConfig(levelConfigCandidate);
+
+    await this.levelConfigsHistoryService.sendLevelConfigCreated({
+      ...levelConfigCandidate,
+      id,
+    });
 
     return id;
   }

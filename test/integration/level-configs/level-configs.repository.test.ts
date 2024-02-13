@@ -1,14 +1,18 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 import { LevelConfig } from 'src/modules/level-configs/entities/level-config.entity';
 import { LevelConfigsModule } from 'src/modules/level-configs/level-configs.module';
 import { LoggerModule } from 'src/modules/logger/logger.module';
-import { testDataSourceOptions } from '../db/test_data_source';
+import { testDataSourceOptions } from '../../utils/db/test_data_source';
 import { LevelConfigsRepository } from 'src/modules/level-configs/level-configs.repository';
 import { levelConfigCandidateTemplate } from './data/level-configs.data';
 import { createdDateUpdatedDateExpect } from '../../data/date-template.data';
+import { HelpersModule } from 'src/modules/helpers/helpers.module';
+import configuration from 'src/config/configuration';
+import { KafkaModule } from 'src/modules/kafka/kafka.module';
 
 describe('LevelConfigsRepository', () => {
   let levelConfigRepo: Repository<LevelConfig>;
@@ -16,7 +20,17 @@ describe('LevelConfigsRepository', () => {
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(testDataSourceOptions), LoggerModule, LevelConfigsModule],
+      imports: [
+        TypeOrmModule.forRoot(testDataSourceOptions),
+        LoggerModule,
+        HelpersModule,
+        LevelConfigsModule,
+        ConfigModule.forRoot({
+          isGlobal: true,
+          load: [configuration],
+        }),
+        KafkaModule,
+      ],
     }).compile();
 
     levelConfigsRepository = testingModule.get(LevelConfigsRepository);

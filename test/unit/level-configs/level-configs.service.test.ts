@@ -3,12 +3,17 @@ import { LevelConfigsService } from 'src/modules/level-configs/level-configs.ser
 import { LevelConfigsRepositoryMock } from '../../mocks/level-configs.repository.mock';
 import { LoggerService } from 'src/modules/logger/logger.service';
 import { LevelConfigNotFoundError } from 'src/modules/level-configs/level-configs.errors';
+import { LevelConfigsHistoryServiceMock } from '../../mocks/level.configs-history.service.mock';
 
 describe('LevelConfigsService', () => {
   let levelConfigsService: LevelConfigsService;
 
   beforeAll(async () => {
-    levelConfigsService = new LevelConfigsService(LevelConfigsRepositoryMock, new LoggerService());
+    levelConfigsService = new LevelConfigsService(
+      LevelConfigsRepositoryMock,
+      new LoggerService(),
+      LevelConfigsHistoryServiceMock,
+    );
   });
 
   beforeEach(() => {
@@ -25,6 +30,18 @@ describe('LevelConfigsService', () => {
       await levelConfigsService.createLevelConfig(levelConfigCandidateTemplate);
 
       expect(LevelConfigsRepositoryMock.createLevelConfig).toHaveBeenCalledWith(levelConfigCandidateTemplate);
+    });
+
+    it('Should call levelConfigsHistoryService.sendLevelConfigCreated with expected arguments', async () => {
+      const id = 1;
+      LevelConfigsRepositoryMock.createLevelConfig.mockResolvedValue(id);
+
+      await levelConfigsService.createLevelConfig(levelConfigCandidateTemplate);
+
+      expect(LevelConfigsHistoryServiceMock.sendLevelConfigCreated).toHaveBeenCalledWith({
+        ...levelConfigCandidateTemplate,
+        id,
+      });
     });
   });
 

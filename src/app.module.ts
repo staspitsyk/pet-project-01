@@ -8,6 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { LevelConfigsModule } from './modules/level-configs/level-configs.module';
 import { LoggerModule } from './modules/logger/logger.module';
+import { KafkaModule } from './modules/kafka/kafka.module';
+import { HelpersModule } from './modules/helpers/helpers.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { LoggerModule } from './modules/logger/logger.module';
     }),
     LevelConfigsModule,
     LoggerModule,
+    HelpersModule,
+    KafkaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

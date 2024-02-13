@@ -13,6 +13,19 @@ export const validationSchema = Joi.object({
       entities: Joi.array().items(Joi.string()),
     }).required(),
   }).required(),
+
+  kafka: Joi.object({
+    broker: Joi.string().required(),
+  }).required(),
+
+  features: Joi.object({
+    levelConfig: Joi.object({
+      topics: Joi.object({
+        levelConfigHistoryTopic: Joi.string().required(),
+      }).required(),
+    }).required(),
+  }).required(),
+
   app: Joi.object({
     port: Joi.number().required(),
   }).required(),

@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:int": "jest --runInBand --no-cache --config jest-integration.json",
+    "test:int": "dotenv -e .env.test -- jest --runInBand --no-cache --config jest-integration.json",
     "test:func": "dotenv -e .env.test -- jest --runInBand --no-cache --config jest-functional.json",
     "test:unit": "jest --runInBand --no-cache --config jest-unit.json",
     "typeorm": "npm run build && npx typeorm -d dist/db/data_source.js",
@@ -38,11 +38,13 @@
     "class-validator": "^0.14.1",
     "docker-compose": "^0.24.3",
     "joi": "^17.12.1",
+    "kafkajs": "^2.2.4",
     "lodash": "^4.17.21",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
     "@golevelup/ts-jest": "^0.4.0",
