@@ -13,6 +13,7 @@ import { Logger } from '@nestjs/common';
 
 const originalErrorToHttpErrorMap = {
   BaseNotFoundError: NotFoundException,
+  BaseBadRequest: BadRequestException,
 };
 
 @Injectable()

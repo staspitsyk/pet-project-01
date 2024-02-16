@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -17,9 +17,10 @@ import { KafkaModule } from 'src/modules/kafka/kafka.module';
 describe('LevelConfigsRepository', () => {
   let levelConfigRepo: Repository<LevelConfig>;
   let levelConfigsRepository: LevelConfigsRepository;
+  let testingModule: TestingModule;
 
   beforeAll(async () => {
-    const testingModule = await Test.createTestingModule({
+    testingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(testDataSourceOptions),
         LoggerModule,
@@ -39,6 +40,10 @@ describe('LevelConfigsRepository', () => {
 
   beforeEach(async () => {
     await Promise.all([levelConfigRepo.clear()]);
+  });
+
+  afterAll(async () => {
+    await testingModule.close();
   });
 
   describe('createLevelConfig', () => {

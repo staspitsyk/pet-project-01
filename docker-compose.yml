@@ -22,9 +22,14 @@ services:
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_DB=${PG_DB}
       - PG_PORT=${PG_PORT}
+      - MONGO_NAME=${MONGO_NAME}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
+      - MONGO_URI=${MONGO_URI}
     depends_on:
       - postgres
       - kafka
+      - mongo
 
   postgres:
     container_name: postgres-db
@@ -41,6 +46,33 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./src/dbDumpFile:/dbDumpFile
       - /var/run/docker.sock:/var/run/docker.sock
+
+  mongo:
+    image: mongo:7.0
+    container_name: mongo-docker
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_USER}
+    ports:
+      - "27017:27017"
+    networks:
+      - backend_network
+        
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: mongo-express
+    ports:
+      - "28081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: mongo
+      ME_CONFIG_BASICAUTH_PASSWORD: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_USER}
+    depends_on:
+      - mongo
+    networks:
+      - backend_network
 
   pgadmin:
     container_name: pgadmin

@@ -12,6 +12,17 @@ services:
     networks:
       - backend_network
 
+  mongo:
+    image: mongo:7.0
+    container_name: test-mongo-docker
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=mongoadmin
+    ports:
+      - "27017:27017"
+    networks:
+      - backend_network
+
   kafka:
     image: confluentinc/cp-kafka:6.0.14
     depends_on:

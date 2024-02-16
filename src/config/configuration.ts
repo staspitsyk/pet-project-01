@@ -22,6 +22,12 @@ export type Config = {
       synchronize: boolean;
       entities: string[];
     };
+    mongo: {
+      dbName: string;
+      username: string;
+      password: string;
+      uri: string;
+    };
   };
   kafka: {
     broker: string;
@@ -34,6 +40,9 @@ export type Config = {
       topics: {
         levelConfigHistoryTopic: string;
       };
+    };
+    clientUiConfig: {
+      key: string;
     };
   };
 };
@@ -48,6 +57,12 @@ const baseConfig: RecursivePartial<Config> = {
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB,
     },
+    mongo: {
+      dbName: process.env.MONGO_NAME,
+      username: process.env.MONGO_USER,
+      password: process.env.MONGO_USER,
+      uri: process.env.MONGO_URI,
+    },
   },
   kafka: {
     broker: process.env.KAFKA_BROKER,
@@ -57,6 +72,9 @@ const baseConfig: RecursivePartial<Config> = {
       topics: {
         levelConfigHistoryTopic: 'level-config-history',
       },
+    },
+    clientUiConfig: {
+      key: 'client-ui-config-key',
     },
   },
   app: {
