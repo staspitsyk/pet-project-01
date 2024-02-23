@@ -1,0 +1,23 @@
+type ClientUiConfig {
+  name: String
+  type: String
+  isFolder: Boolean
+  description: String
+  items: [ClientUiConfig]
+}
+
+
+type Query {
+  clientUiConfig: ClientUiConfig
+}
+
+input CreateClientUiConfigInput {
+  name: String!
+  type: String!
+  isFolder: Boolean!
+  items: [CreateClientUiConfigInput]!
+}
+
+type Mutation {
+  createClientUiConfig(createClientUiConfigInput: CreateClientUiConfigInput!): ClientUiConfig!
+}

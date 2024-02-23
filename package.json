@@ -24,12 +24,16 @@
     "typeorm": "npm run build && npx typeorm -d dist/db/data_source.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "gql:generate": "ts-node src/graphql/graphql.schema.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.10.0",
+    "@nestjs/apollo": "^12.1.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/graphql": "^12.1.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^10.0.4",
     "@nestjs/platform-express": "^10.0.0",
@@ -38,6 +42,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "docker-compose": "^0.24.3",
+    "graphql": "^16.8.1",
     "joi": "^17.12.1",
     "kafkajs": "^2.2.4",
     "lodash": "^4.17.21",
@@ -45,6 +50,7 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "ts-morph": "^21.0.1",
     "typeorm": "^0.3.20",
     "wait-for-expect": "^3.0.2"
   },

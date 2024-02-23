@@ -5,6 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from 'src/db/data_source';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+import { GraphQLFormattedError } from 'graphql';
 
 import configuration from './config/configuration';
 import { LevelConfigsModule } from './modules/level-configs/level-configs.module';
@@ -16,6 +20,14 @@ import { ClientUiConfigModule } from './modules/client-ui-config/client-ui-confi
 
 @Module({
   imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), 'src/graphql/graphql.schema.ts'),
+      },
+      formatError: (err) => (err.extensions?.originalError || err) as GraphQLFormattedError,
+    }),
     TypeOrmModule.forRoot(dataSourceOptions),
     ConfigModule.forRoot({
       isGlobal: true,
