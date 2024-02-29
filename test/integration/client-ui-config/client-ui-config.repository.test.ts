@@ -1,14 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule, getModelToken } from '@nestjs/mongoose';
+import { TestingModule } from '@nestjs/testing';
+import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import configuration, { config } from 'src/config/configuration';
-import { ClientUiConfigModule } from 'src/modules/client-ui-config/client-ui-config.module';
-import { testMongoUri, testMongoConfig } from '../../utils/db/test_mongo_config';
+import { config } from 'src/config/configuration';
 import { ClientUiConfig } from 'src/modules/client-ui-config/client-ui-config.schema';
 import { ClientUiConfigRepository } from 'src/modules/client-ui-config/client-ui-config.repository';
 import { clientUiConfigCandidateTemplate } from './data/client-ui-config.data';
+import { getTestModule } from '../test-module';
 
 describe('ClientUiConfigRepository', () => {
   let clientUiConfigModel: Model<ClientUiConfig>;
@@ -17,16 +15,7 @@ describe('ClientUiConfigRepository', () => {
   const clientUiConfigKey: string = config.features.clientUiConfig.key;
 
   beforeAll(async () => {
-    testingModule = await Test.createTestingModule({
-      imports: [
-        MongooseModule.forRoot(testMongoUri, testMongoConfig),
-        ClientUiConfigModule,
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [configuration],
-        }),
-      ],
-    }).compile();
+    testingModule = await getTestModule();
 
     clientUiConfigRepository = testingModule.get(ClientUiConfigRepository);
     clientUiConfigModel = testingModule.get(getModelToken(ClientUiConfig.name));

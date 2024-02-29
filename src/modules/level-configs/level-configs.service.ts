@@ -45,4 +45,8 @@ export class LevelConfigsService {
 
     return levelConfig;
   }
+
+  getFirstLevelConfig(): Promise<LevelConfig> {
+    return this.getLevelConfigByLevel(1);
+  }
 }

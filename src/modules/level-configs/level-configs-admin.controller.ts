@@ -7,7 +7,7 @@ import { CreateLevelConfigResponse } from './responses/create-level-config.respo
 import { GetLevelConfigResponse, GetLevelConfigsResponse } from './responses/get-level-config.response';
 import { LEVEL_CONFIGS_ROUTE } from './routes';
 
-@ApiTags('level-configs')
+@ApiTags(LEVEL_CONFIGS_ROUTE)
 @Controller(LEVEL_CONFIGS_ROUTE)
 export class LevelConfigsAdminController {
   constructor(private readonly levelConfigsService: LevelConfigsService) {}

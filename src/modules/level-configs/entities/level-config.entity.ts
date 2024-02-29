@@ -5,7 +5,7 @@ export class LevelConfig {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false, unique: true, type: 'integer' })
   @Index()
   level: number;
 

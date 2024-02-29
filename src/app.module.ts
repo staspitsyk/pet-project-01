@@ -17,6 +17,7 @@ import { KafkaModule } from './modules/kafka/kafka.module';
 import { HelpersModule } from './modules/helpers/helpers.module';
 import { mongoConfig, mongoUri } from './db/mongo_config';
 import { ClientUiConfigModule } from './modules/client-ui-config/client-ui-config.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -33,11 +34,12 @@ import { ClientUiConfigModule } from './modules/client-ui-config/client-ui-confi
       isGlobal: true,
       load: [configuration],
     }),
-    LevelConfigsModule,
-    LoggerModule,
-    HelpersModule,
     KafkaModule,
     MongooseModule.forRoot(mongoUri, mongoConfig),
+    LoggerModule,
+    HelpersModule,
+    AuthModule,
+    LevelConfigsModule,
     ClientUiConfigModule,
   ],
   controllers: [AppController],

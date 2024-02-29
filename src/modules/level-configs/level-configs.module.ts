@@ -12,5 +12,6 @@ import { LevelConfigsHistoryService } from './level.configs-history.service';
   imports: [TypeOrmModule.forFeature([LevelConfig]), KafkaModule],
   controllers: [LevelConfigsAdminController],
   providers: [LevelConfigsService, LevelConfigsRepository, LevelConfigsHistoryService],
+  exports: [LevelConfigsService],
 })
 export class LevelConfigsModule {}
