@@ -45,6 +45,12 @@ export type Config = {
       key: string;
     };
   };
+  auth: {
+    jwt: {
+      secret: string;
+      expiresInS: number;
+    };
+  };
 };
 
 const baseConfig: RecursivePartial<Config> = {
@@ -79,6 +85,12 @@ const baseConfig: RecursivePartial<Config> = {
   },
   app: {
     port: parseInt(process.env.APP_PORT || '3000'),
+  },
+  auth: {
+    jwt: {
+      secret: process.env.JWT_SECRET,
+      expiresInS: 60 * 60 * 24,
+    },
   },
 };
 

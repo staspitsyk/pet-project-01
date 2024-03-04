@@ -1,0 +1,13 @@
+const MS_IN_SECOND = 1000;
+const MS_IN_MINUTE = MS_IN_SECOND * 60;
+const MS_IN_HOUR = MS_IN_MINUTE * 60;
+const MS_IN_DAY = MS_IN_HOUR * 24;
+const MS_IN_WEEK = MS_IN_DAY * 7;
+
+export enum MsIn {
+  SECOND = MS_IN_SECOND,
+  MINUTE = MS_IN_MINUTE,
+  HOUR = MS_IN_HOUR,
+  DAY = MS_IN_DAY,
+  WEEK = MS_IN_WEEK,
+}

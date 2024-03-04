@@ -6,6 +6,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,7 +14,8 @@ import { Logger } from '@nestjs/common';
 
 const originalErrorToHttpErrorMap = {
   BaseNotFoundError: NotFoundException,
-  BaseBadRequest: BadRequestException,
+  BaseBadRequestError: BadRequestException,
+  BaseUnauthorizedError: UnauthorizedException,
 };
 
 @Injectable()

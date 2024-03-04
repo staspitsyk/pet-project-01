@@ -40,4 +40,11 @@ export const validationSchema = Joi.object({
   app: Joi.object({
     port: Joi.number().required(),
   }).required(),
+
+  auth: Joi.object({
+    jwt: Joi.object({
+      secret: Joi.string().required(),
+      expiresInS: Joi.number().required(),
+    }).required(),
+  }).required(),
 });

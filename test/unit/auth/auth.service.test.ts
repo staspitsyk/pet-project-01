@@ -1,13 +1,16 @@
 import * as crypto from 'crypto';
 
 import { AuthService } from 'src/modules/auth/auth.service';
+import { UsersServiceMock } from '../../mocks/users.service.mock';
+import { ConfigServiceMock } from 'test/mocks/config.service.mock';
+import { JwtServiceMock } from 'test/mocks/jwt.service.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
   const password = 'some-password';
 
   beforeAll(async () => {
-    authService = new AuthService();
+    authService = new AuthService(UsersServiceMock, ConfigServiceMock, JwtServiceMock);
   });
 
   beforeEach(() => {

@@ -16,6 +16,15 @@ export class BaseBadRequestError extends Error implements BaseError {
   constructor(message: string) {
     super(message);
 
-    this.type = 'BaseBadRequest';
+    this.type = 'BaseBadRequestError';
+  }
+}
+
+export class BaseUnauthorizedError extends Error implements BaseError {
+  readonly type: string;
+  constructor(message: string) {
+    super(message);
+
+    this.type = 'BaseUnauthorizedError';
   }
 }
