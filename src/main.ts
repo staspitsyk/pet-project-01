@@ -11,7 +11,12 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('app.port');
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
   const config = new DocumentBuilder()

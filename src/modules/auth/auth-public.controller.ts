@@ -15,7 +15,7 @@ export class AuthPublicController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ status: HttpStatus.OK, type: LoginResponse })
   @ApiBody({ type: LoginDto })
-  async createUser(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto.email, loginDto.password);
   }
 }

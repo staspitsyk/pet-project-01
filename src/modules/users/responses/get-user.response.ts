@@ -18,7 +18,7 @@ export class GetUserResponse {
   password: string;
 
   @ApiProperty({ description: "User's level", example: 1, type: Number })
-  level: string;
+  level: number;
 
   @ApiProperty({ description: "User's xp", example: 1, type: Number })
   xp: string;

@@ -7,7 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { LevelConfigsService } from '../level-configs/level-configs.service';
 import { UserCandidateInput } from './types';
 import { User } from './entities/user.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { PatchUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -65,7 +65,7 @@ export class UsersService {
     return user;
   }
 
-  async updateUserById(id: number, updateUserDto: UpdateUserDto): Promise<void> {
+  async updateUserById(id: number, updateUserDto: PatchUserDto): Promise<void> {
     await this.getUserById(id);
     await this.usersRepository.updateUserById(id, updateUserDto);
   }

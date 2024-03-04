@@ -11,7 +11,12 @@ export const getTestApplication = async (): Promise<INestApplication> => {
 
   const app = moduleFixture.createNestApplication();
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
   await app.init();

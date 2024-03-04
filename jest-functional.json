@@ -10,5 +10,5 @@
   "modulePaths": ["<rootDir>"],
   "moduleDirectories": ["node_modules", "src"],
   "testPathIgnorePatterns": ["test/integration", "test/unit"],
-  "testMatch": ["**/test/functional/**/auth.api.test.ts"]
+  "testMatch": ["**/test/functional/**/*.test.ts"]
 }
