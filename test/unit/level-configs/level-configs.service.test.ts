@@ -4,6 +4,7 @@ import { LevelConfigsRepositoryMock } from '../../mocks/level-configs.repository
 import { LoggerService } from 'src/modules/logger/logger.service';
 import { LevelConfigNotFoundError } from 'src/modules/level-configs/level-configs.errors';
 import { LevelConfigsHistoryServiceMock } from '../../mocks/level.configs-history.service.mock';
+import { LevelConfigsLoaderMock } from 'test/mocks/level-configs.loader.mock';
 
 describe('LevelConfigsService', () => {
   let levelConfigsService: LevelConfigsService;
@@ -13,6 +14,7 @@ describe('LevelConfigsService', () => {
       LevelConfigsRepositoryMock,
       new LoggerService(),
       LevelConfigsHistoryServiceMock,
+      LevelConfigsLoaderMock,
     );
   });
 
@@ -46,6 +48,27 @@ describe('LevelConfigsService', () => {
   });
 
   describe('getLevelConfigByLevel', () => {
+    it('Should return level config if exists', async () => {
+      LevelConfigsLoaderMock.loadLevelConfigByLevel.mockResolvedValue(levelConfigTemplate);
+
+      const levelConfig = await levelConfigsService.createLevelConfig(levelConfigCandidateTemplate);
+
+      expect(levelConfig).toEqual(levelConfig);
+    });
+
+    it('Should throw error if level config does not exist', async () => {
+      try {
+        LevelConfigsLoaderMock.loadLevelConfigByLevel.mockResolvedValue(null);
+
+        await levelConfigsService.getLevelConfigByLevel(1);
+      } catch (err) {
+        expect(err).toBeInstanceOf(LevelConfigNotFoundError);
+        expect(err.message).toEqual('Level config does not exist with level equals to 1');
+      }
+    });
+  });
+
+  describe('getLiveLevelConfigByLevel', () => {
     it('Should return level config if exists', async () => {
       LevelConfigsRepositoryMock.getLevelConfigByLevel.mockResolvedValue(levelConfigTemplate);
 

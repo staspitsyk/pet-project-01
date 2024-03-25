@@ -9,6 +9,7 @@ import { HelpersModule } from 'src/modules/helpers/helpers.module';
 import { KafkaModule } from 'src/modules/kafka/kafka.module';
 import { LevelConfigsModule } from 'src/modules/level-configs/level-configs.module';
 import { LoggerModule } from 'src/modules/logger/logger.module';
+import { RedisModule } from 'src/modules/redis/redis.module';
 import { UsersModule } from 'src/modules/users/users.module';
 import { testDataSourceOptions } from 'test/utils/db/test_data_source';
 import { testMongoConfig, testMongoUri } from 'test/utils/db/test_mongo_config';
@@ -27,6 +28,7 @@ export const getTestModule = async (): Promise<TestingModule> => {
         load: [configuration],
       }),
       KafkaModule,
+      RedisModule,
       UsersModule,
     ],
   }).compile();

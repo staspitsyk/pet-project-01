@@ -100,4 +100,19 @@ describe('LevelConfigsRepository', () => {
       expect(await levelConfigsRepository.getLevelConfigs()).toHaveLength(3);
     });
   });
+
+  describe('toLevelConfigEntity', () => {
+    it('Should return Level Config Entity', async () => {
+      await levelConfigsRepository.createLevelConfig({ ...levelConfigCandidateTemplate, level: 1 });
+
+      const levelConfig = await levelConfigsRepository.getLevelConfigByLevel(1);
+
+      const levelConfigCandidate = JSON.parse(JSON.stringify(levelConfig));
+
+      const levelConfigEntity = levelConfigsRepository.toLevelConfigEntity(levelConfigCandidate);
+
+      expect(levelConfigEntity).toBeInstanceOf(LevelConfig);
+      expect(levelConfigEntity).toEqual(levelConfig);
+    });
+  });
 });

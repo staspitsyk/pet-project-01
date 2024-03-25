@@ -28,6 +28,10 @@ export type Config = {
       password: string;
       uri: string;
     };
+    redis: {
+      host: string;
+      port: number;
+    };
   };
   kafka: {
     broker: string;
@@ -68,6 +72,10 @@ const baseConfig: RecursivePartial<Config> = {
       username: process.env.MONGO_USER,
       password: process.env.MONGO_USER,
       uri: process.env.MONGO_URI,
+    },
+    redis: {
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT || '6379'),
     },
   },
   kafka: {

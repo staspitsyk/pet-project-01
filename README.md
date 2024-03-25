@@ -6,7 +6,8 @@ A NestJs Pet project, that is build with next technologies
 - NestJs
 - Databases
  1. PostgreSQL
- 2. MongoDB
+ 2. Redis
+ 3. MongoDB
 - Postgres migrations
 - ORMs
  1. typeorm

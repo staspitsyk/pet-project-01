@@ -19,6 +19,11 @@ export const validationSchema = Joi.object({
       password: Joi.string().required(),
       uri: Joi.string().required(),
     }).required(),
+
+    redis: Joi.object({
+      host: Joi.string().required(),
+      port: Joi.number().required(),
+    }).required(),
   }).required(),
 
   kafka: Joi.object({

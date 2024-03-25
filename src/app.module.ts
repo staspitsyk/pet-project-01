@@ -18,6 +18,7 @@ import { HelpersModule } from './modules/helpers/helpers.module';
 import { mongoConfig, mongoUri } from './db/mongo_config';
 import { ClientUiConfigModule } from './modules/client-ui-config/client-ui-config.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { RedisModule } from './modules/redis/redis.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     KafkaModule,
     MongooseModule.forRoot(mongoUri, mongoConfig),
+    RedisModule,
     LoggerModule,
     HelpersModule,
     AuthModule,

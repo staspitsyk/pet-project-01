@@ -32,6 +32,6 @@ export class LevelConfigsAdminController {
   @ApiParam({ name: 'level', required: true })
   @ApiResponse({ status: HttpStatus.OK, type: GetLevelConfigResponse })
   getLevelConfigByLevel(@Param('level') level: number) {
-    return this.levelConfigsService.getLevelConfigByLevel(level);
+    return this.levelConfigsService.getLiveLevelConfigByLevel(level);
   }
 }

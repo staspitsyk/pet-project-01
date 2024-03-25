@@ -12,6 +12,16 @@ services:
     networks:
       - backend_network
 
+  redis:
+    container_name: test-redis
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - backend_network
+    volumes:
+      - redis:/data
+
   mongo:
     image: mongo:7.0
     container_name: test-mongo-docker
@@ -55,3 +65,5 @@ networks:
 
 volumes:
   postgres_data: {}
+  redis:
+    driver: local

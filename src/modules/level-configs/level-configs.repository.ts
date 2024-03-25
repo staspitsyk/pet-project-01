@@ -12,6 +12,18 @@ export class LevelConfigsRepository {
     private levelConfigsRepo: Repository<LevelConfig>,
   ) {}
 
+  toLevelConfigEntity(levelConfigCandidate: LevelConfig): LevelConfig {
+    const { createdDate, updatedDate } = levelConfigCandidate;
+
+    const entity = this.levelConfigsRepo.create({
+      ...levelConfigCandidate,
+      createdDate: new Date(createdDate),
+      updatedDate: new Date(updatedDate),
+    });
+
+    return entity;
+  }
+
   async createLevelConfig(levelConfigCandidate: CreateLevelConfigDto): Promise<number> {
     const levelConfig = this.levelConfigsRepo.create(levelConfigCandidate);
 

@@ -6,6 +6,7 @@ import { LevelConfigNotFoundError } from './level-configs.errors';
 import { LevelConfig } from './entities/level-config.entity';
 import { LoggerService } from '../logger/logger.service';
 import { LevelConfigsHistoryService } from './level.configs-history.service';
+import { LevelConfigsLoader } from './level-configs.loader';
 
 @Injectable()
 export class LevelConfigsService {
@@ -15,6 +16,7 @@ export class LevelConfigsService {
     private readonly levelConfigRepository: LevelConfigsRepository,
     readonly loggerService: LoggerService,
     private readonly levelConfigsHistoryService: LevelConfigsHistoryService,
+    private readonly levelConfigsLoader: LevelConfigsLoader,
   ) {
     this.logger = loggerService.getLogger('LevelConfigsService');
   }
@@ -30,13 +32,23 @@ export class LevelConfigsService {
     return id;
   }
 
-  getLevelConfigs() {
+  getLevelConfigs(): Promise<LevelConfig[]> {
     this.logger.log('Get Level Configs');
 
     return this.levelConfigRepository.getLevelConfigs();
   }
 
   async getLevelConfigByLevel(level: number): Promise<LevelConfig> {
+    const levelConfig = await this.levelConfigsLoader.loadLevelConfigByLevel(level);
+
+    if (!levelConfig) {
+      throw new LevelConfigNotFoundError({ level });
+    }
+
+    return levelConfig;
+  }
+
+  async getLiveLevelConfigByLevel(level: number): Promise<LevelConfig> {
     const levelConfig = await this.levelConfigRepository.getLevelConfigByLevel(level);
 
     if (!levelConfig) {
